@@ -119,6 +119,9 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
       NSLog(@"--- periph %@", peripheral);
       NSLog(@"--- scanned periph %@", _scannedPeripherals);
       if(peripheral == nil) {
+        CBPeripheral *peripheral = [self findPeripheral:remoteId];
+        NSLog(@"--- periph2 %@", peripheral);
+        
         @throw [FlutterError errorWithCode:@"connect"
                                    message:@"Peripheral not found"
                                    details:nil];
