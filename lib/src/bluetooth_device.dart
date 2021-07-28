@@ -38,7 +38,7 @@ class BluetoothDevice {
     await FlutterBlue.instance._channel
         .invokeMethod('connect', request.writeToBuffer());
 
-    await state.firstWhere((s) => s == BluetoothDeviceState.connected);
+    //await state.firstWhere((s) => s == BluetoothDeviceState.connected);
 
     timer?.cancel();
 
