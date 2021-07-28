@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 @property(nonatomic, retain) FlutterBlueStreamHandler *stateStreamHandler;
 @property(nonatomic, retain) CBCentralManager *centralManager;
 @property(nonatomic) NSMutableDictionary *scannedPeripherals;
+@property (strong,nonatomic) NSMutableArray *foundPeripherals;
 @property(nonatomic) NSMutableArray *servicesThatNeedDiscovered;
 @property(nonatomic) NSMutableArray *characteristicsThatNeedDiscovered;
 @property(nonatomic) LogLevel logLevel;
@@ -50,6 +51,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
   instance.channel = channel;
   instance.centralManager = [[CBCentralManager alloc] initWithDelegate:instance queue:nil];
   instance.scannedPeripherals = [NSMutableDictionary new];
+  instance.foundPeripherals=[NSMutableArray new];
   instance.servicesThatNeedDiscovered = [NSMutableArray new];
   instance.characteristicsThatNeedDiscovered = [NSMutableArray new];
   instance.logLevel = emergency;
@@ -378,6 +380,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 }
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI {
+  [self.foundPeripherals addObject:peripheral];
   [self.scannedPeripherals setObject:peripheral
                               forKey:[[peripheral identifier] UUIDString]];
   ProtosScanResult *result = [self toScanResultProto:peripheral advertisementData:advertisementData RSSI:RSSI];
