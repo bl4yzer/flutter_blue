@@ -109,6 +109,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     // Cannot pass blank UUID list for security reasons. Assume all devices have the Generic Access service 0x1800
     NSArray *periphs = [self->_centralManager retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:@"1800"]]];
     NSLog(@"getConnectedDevices periphs size: %lu", [periphs count]);
+    [self.foundPeripherals addObject:periphs];
     result([self toFlutterData:[self toConnectedDeviceResponseProto:periphs]]);
   } else if([@"connect" isEqualToString:call.method]) {
     FlutterStandardTypedData *data = [call arguments];
