@@ -119,13 +119,16 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
       NSLog(@"--- periph %@", peripheral);
       NSLog(@"--- scanned periph %@", _scannedPeripherals);
       if(peripheral == nil) {
-        CBPeripheral *peripheral = [self findPeripheral:remoteId];
+        peripheral = [self findPeripheral:remoteId];
         NSLog(@"--- periph2 %@", peripheral);
-        
-        @throw [FlutterError errorWithCode:@"connect"
-                                   message:@"Peripheral not found"
-                                   details:nil];
+        if (peripheral == nil) {
+          NSLog(@"--- periph is nillll %@", peripheral);
+          @throw [FlutterError errorWithCode:@"connect"
+                                     message:@"Peripheral not found"
+                                     details:nil];
+        }
       }
+      NSLog(@"--- periph3 %@", peripheral);
       // TODO: Implement Connect options (#36)
       [_centralManager connectPeripheral:peripheral options:nil];
       result(nil);
