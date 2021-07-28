@@ -22,6 +22,7 @@ class BluetoothDevice {
     Duration? timeout,
     bool autoConnect = true,
   }) async {
+    print("==== bluetooth: test log");
     var request = protos.ConnectRequest.create()
       ..remoteId = id.toString()
       ..androidAutoConnect = autoConnect;
