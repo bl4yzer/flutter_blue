@@ -22,7 +22,6 @@ class BluetoothDevice {
     Duration? timeout,
     bool autoConnect = true,
   }) async {
-    print("==== bluetooth: test log");
     var request = protos.ConnectRequest.create()
       ..remoteId = id.toString()
       ..androidAutoConnect = autoConnect;
@@ -38,7 +37,7 @@ class BluetoothDevice {
     await FlutterBlue.instance._channel
         .invokeMethod('connect', request.writeToBuffer());
 
-    //await state.firstWhere((s) => s == BluetoothDeviceState.connected);
+    await state.firstWhere((s) => s == BluetoothDeviceState.connected);
 
     timer?.cancel();
 
