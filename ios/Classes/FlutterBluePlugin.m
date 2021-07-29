@@ -115,23 +115,16 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     FlutterStandardTypedData *data = [call arguments];
     ProtosConnectRequest *request = [[ProtosConnectRequest alloc] initWithData:[data data] error:nil];
     NSString *remoteId = [request remoteId];
-    NSLog(@"--- connect called");
-    NSLog(@"--- %@", remoteId);
     @try {
       CBPeripheral *peripheral = [_scannedPeripherals objectForKey:remoteId];
-      NSLog(@"--- periph %@", peripheral);
-      NSLog(@"--- scanned periph %@", _scannedPeripherals);
       if(peripheral == nil) {
         peripheral = [self findPeripheral:remoteId];
-        NSLog(@"--- periph2 %@", peripheral);
         if (peripheral == nil) {
-          NSLog(@"--- periph is nillll %@", peripheral);
           @throw [FlutterError errorWithCode:@"connect"
                                      message:@"Peripheral not found"
                                      details:nil];
         }
       }
-      NSLog(@"--- periph3 %@", peripheral);
       // TODO: Implement Connect options (#36)
       [_centralManager connectPeripheral:peripheral options:nil];
       result(nil);
